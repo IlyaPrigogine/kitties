@@ -4,12 +4,22 @@ pub use pallet::*;
 
 #[frame_support::pallet]
 pub mod pallet {
+	use frame_support::pallet_prelude::*;
+	use frame_system::pallet_prelude::*;
 	use frame_support::{sp_runtime::traits::{Hash, Zero},
 						dispatch::{DispatchResultWithPostInfo, DispatchResult},
-						traits::{Currency, ExistenceRequirement, Randomness},
+						traits::{Currency, Randomness, tokens::ExistenceRequirement},
+						transactional,
 						pallet_prelude::*};
-	use frame_system::pallet_prelude::*;
 	use sp_io::hashing::blake2_128;
+
+	#[cfg(feature = "std")]
+	use frame_support::serde::{Deserialize, Serialize};
+	// ACTION #1: Write a Struct to hold Kitty information.
+
+	// ACTION #2: Enum declaration for Gender.
+
+	// ACTION #3: Implementation to handle Gender type in Kitty struct.
 
 	// TODO Part II: Struct for holding Kitty information.
 
@@ -29,13 +39,15 @@ pub mod pallet {
 		/// The Currency handler for the Kitties pallet.
 		type Currency: Currency<Self::AccountId>;
 
-		// TODO Part II: Specify the custom types for our runtime.
+		// ACTION #5: Specify the type for Randomness we want to specify for runtime.
+
+		// ACTION #9: Add MaxKittyOwned constant
 
 	}
 
-	#[pallet::storage]
-	#[pallet::getter(fn kitty_cnt)]
-	pub(super) type KittyCnt<T: Config> = StorageValue<_, u64, ValueQuery>;
+	// #[pallet::storage]
+	// #[pallet::getter(fn kitty_cnt)]
+	// pub(super) type KittyCnt<T: Config> = StorageValue<_, u64, ValueQuery>;
 
 	// Errors.
 	#[pallet::error]
@@ -49,11 +61,13 @@ pub mod pallet {
 		// TODO Part III
 	}
 
-	// ACTION: Storage item to keep a count of all existing Kitties.
+	#[pallet::storage]
+	#[pallet::getter(fn all_kitties_count)]
+	pub(super) type KittyCnt<T: Config> = StorageValue<_, u64, ValueQuery>;
 
-	// TODO Part II: Remaining storage items.
+	// ACTION #7: Remaining storage items.
 
-	// TODO Part III: Our pallet's genesis configuration.
+	// TODO Part IV: Our pallet's genesis configuration.
 
 	#[pallet::call]
 	impl<T: Config> Pallet<T> {
@@ -72,9 +86,15 @@ pub mod pallet {
 	// TODO Parts II: helper function for Kitty struct
 
 	impl<T: Config> Pallet<T> {
+		// ACTION #4: helper function for Kitty struct
+
 		// TODO Part III: helper functions for dispatchable functions
 
-		// TODO: increment_nonce, random_hash, mint, transfer_from
+		// ACTION #6: function to randomly generate DNA
+
+		// TODO Part III: mint
+
+		// TODO Part IV: transfer_kitty_to
 
 	}
 }
