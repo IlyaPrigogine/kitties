@@ -83,7 +83,16 @@ pub mod pallet {
 	#[pallet::getter(fn all_kitties_count)]
 	pub(super) type KittyCnt<T: Config> = StorageValue<_, u64, ValueQuery>;
 
-	// ACTION #7: Remaining storage items.
+	#[pallet::storage]
+	#[pallet::getter(fn kitties_owned)]
+	/// Keeps track of what accounts own what Kitty.
+	pub(super) type KittiesOwned<T: Config> = StorageMap<
+		_,
+		Twox64Concat,
+		T::AccountId,
+		BoundedVec<T::Hash, T::MaxKittyOwned>,
+		ValueQuery
+	>;
 
 	// TODO Part IV: Our pallet's genesis configuration.
 
