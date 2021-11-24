@@ -12,12 +12,30 @@ pub mod pallet {
 						transactional,
 						pallet_prelude::*};
 	use sp_io::hashing::blake2_128;
+	use scale_info::TypeInfo;
 
 	#[cfg(feature = "std")]
 	use frame_support::serde::{Deserialize, Serialize};
-	// ACTION #1: Write a Struct to hold Kitty information.
 
-	// ACTION #2: Enum declaration for Gender.
+	type AccountOf<T> = <T as frame_system::Config>::AccountId;
+	type BalanceOf<T> = <<T as Config>::Currency as Currency<<T as frame_system::Config>::AccountId>>::Balance;
+	#[derive(Clone, Encode, Decode, PartialEq, RuntimeDebug, TypeInfo)]
+	#[scale_info(skip_type_params(T))]
+	pub struct Kitty<T: Config> {
+		pub dna: [u8; 16],
+		pub price: Option<BalanceOf<T>>,
+		pub gender: Gender,
+		pub owner: AccountOf<T>,
+	}
+
+	#[derive(Clone, Encode, Decode, PartialEq, RuntimeDebug, TypeInfo)]
+	#[scale_info(skip_type_params(T))]
+	#[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
+	pub enum Gender {
+		Male,
+		Female,
+	}
+
 
 	// ACTION #3: Implementation to handle Gender type in Kitty struct.
 
