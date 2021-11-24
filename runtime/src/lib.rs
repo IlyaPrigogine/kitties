@@ -285,8 +285,8 @@ parameter_types! {
 impl pallet_kitties::Config for Runtime {
 	type Event = Event;
 	type Currency = Balances;
-	type KittyRandomness = RandomnessCollectiveFlip;
-	type MaxKittyOwned = MaxKittyOwned;
+	// type KittyRandomness = RandomnessCollectiveFlip;
+	// type MaxKittyOwned = MaxKittyOwned;
 }
 
 // Create the runtime by composing the FRAME pallets that were previously configured.
