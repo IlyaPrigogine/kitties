@@ -33,6 +33,10 @@ pub mod pallet {
 
 	}
 
+	#[pallet::storage]
+	#[pallet::getter(fn kitty_cnt)]
+	pub(super) type KittyCnt<T: Config> = StorageValue<_, u64, ValueQuery>;
+
 	// Errors.
 	#[pallet::error]
 	pub enum Error<T> {
