@@ -59,7 +59,7 @@ pub mod pallet {
 
 		type KittyRandomness: Randomness<Self::Hash, Self::BlockNumber>;
 
-		// ACTION #9: Add MaxKittyOwned constant
+		type MaxKittyOwned: Get<u32>;
 
 	}
 
