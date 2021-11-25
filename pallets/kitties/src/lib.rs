@@ -137,7 +137,7 @@ pub mod pallet {
 			Ok(())
 		}
 
-		// TODO Part III: set_price
+
 
 		// TODO Part III: transfer
 
@@ -197,7 +197,12 @@ pub mod pallet {
 			Ok(kitty_id)
 		}
 
-		// TODO Part IV: transfer_kitty_to
+		pub fn is_kitty_owner(kitty_id: &T::Hash, acct: &T::AccountId) -> Result<bool, Error<T>> {
+			match Self::kitties(kitty_id) {
+				Some(kitty) => Ok(kitty.owner == *acct),
+				None => Err(<Error<T>>::KittyNotExist)
+			}
+		}
 
 	}
 }
