@@ -196,6 +196,18 @@ pub mod pallet {
 				Err(<Error<T>>::KittyNotForSale)?;
 			}
 
+			ensure!(T::Currency::free_balance(&buyer) >= bid_price, <Error<T>>::NotEnoughBalance);
+
+			let to_owned = <KittiesOwned<T>>::get(&buyer);
+			ensure!((to_owned.len() as u32) < T::MaxKittyOwned::get(), <Error<T>>::ExceedMaxKittyOwned);
+
+			let seller = kitty.owner.clone();
+
+			T::Currency::transfer(&buyer, &seller, bid_price, ExistenceRequirement::KeepAlive)?;
+
+			Self::transfer_kitty_to(&kitty_id, &buyer)?;
+			Self::deposit_event(Event::Bought(buyer,seller,kitty_id,bid_price));
+
 			Ok(())
 		}
 
