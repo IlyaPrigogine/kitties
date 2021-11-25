@@ -6,11 +6,13 @@ pub use pallet::*;
 pub mod pallet {
 	use frame_support::pallet_prelude::*;
 	use frame_system::pallet_prelude::*;
-	use frame_support::{sp_runtime::traits::{Hash, Zero},
-						dispatch::{DispatchResultWithPostInfo, DispatchResult},
-						traits::{Currency, Randomness, tokens::ExistenceRequirement},
-						transactional,
-						pallet_prelude::*};
+	use frame_support::{
+		sp_runtime::traits::{Hash, Zero},
+		traits::{Currency, Randomness, tokens::ExistenceRequirement},
+		dispatch::{DispatchResultWithPostInfo, DispatchResult},
+		transactional,
+		pallet_prelude::*
+	};
 	use sp_io::hashing::blake2_128;
 	use scale_info::TypeInfo;
 
@@ -66,14 +68,38 @@ pub mod pallet {
 	// Errors.
 	#[pallet::error]
 	pub enum Error<T> {
-		// TODO Part III
+		/// Handles arithemtic overflow when incrementing the Kitty counter.
+		KittyCntOverflow,
+		/// An account cannot own more Kitties than `MaxKittyCount`.
+		ExceedMaxKittyOwned,
+		/// Buyer cannot be the owner.
+		BuyerIsKittyOwner,
+		/// Cannot transfer a kitty to its owner.
+		TransferToSelf,
+		/// Handles checking whether the Kitty exists.
+		KittyNotExist,
+		/// Handles checking that the Kitty is owned by the account transferring, buying or setting a price for it.
+		NotKittyOwner,
+		/// Ensures the Kitty is for sale.
+		KittyNotForSale,
+		/// Ensures that the buying price is greater than the asking price.
+		KittyBidPriceTooLow,
+		/// Ensures that an account has enough funds to purchase a Kitty.
+		NotEnoughBalance,
 	}
 
 	// Events
 	#[pallet::event]
 	#[pallet::generate_deposit(pub(super) fn deposit_event)]
 	pub enum Event<T: Config> {
-		// TODO Part III
+		/// A new Kitty was sucessfully created. \[sender, kitty_id\]
+		Created(T::AccountId, T::Hash),
+		/// Kitty price was sucessfully set. \[sender, kitty_id, new_price\]
+		PriceSet(T::AccountId, T::Hash, Option<BalanceOf<T>>),
+		/// A Kitty was sucessfully transferred. \[from, to, kitty_id\]
+		Transferred(T::AccountId, T::AccountId, T::Hash),
+		/// A Kitty was sucessfully bought. \[buyer, seller, kitty_id, bid_price\]
+		Bought(T::AccountId, T::AccountId, T::Hash, BalanceOf<T>),
 	}
 
 	// Storage
