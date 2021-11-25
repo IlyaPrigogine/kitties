@@ -137,7 +137,25 @@ pub mod pallet {
 			Ok(())
 		}
 
+		#[pallet::weight(100)]
+		pub fn set_price(
+			origin: OriginFor<T>,
+			kitty_id: T::Hash,
+			new_price: Option<BalanceOf<T>>
+		) -> DispatchResult {
+			let sender = ensure_signed(origin)?;
 
+			ensure!(Self::is_kitty_owner(&kitty_id, &sender)?, <Error<T>>::NotKittyOwner);
+
+			let mut kitty = Self::kitties(&kitty_id).ok_or(<Error<T>>::KittyNotExist)?;
+
+			kitty.price = new_price.clone();
+			<Kitties<T>>::insert(&kitty_id, kitty);
+
+			Self::deposit_event(Event::PriceSet(sender,kitty_id, new_price));
+
+			Ok(())
+		}
 
 		// TODO Part III: transfer
 
