@@ -104,10 +104,9 @@ pub mod pallet {
 	#[pallet::getter(fn all_kitties_count)]
 	pub(super) type KittyCnt<T: Config> = StorageValue<_, u64, ValueQuery>;
 
-	// #[pallet::storage]
-	// #[pallet::getter(fn kitties)]
-	// /// Stores a Kitty's unique traits, owner and price.
-	// pub(super) type Kitties<T: Config> = StorageMap<_, Twox64Concat, T::Hash, Kitty<T>>;
+	#[pallet::storage]
+	#[pallet::getter(fn kitties)]
+	pub(super) type Kitties<T: Config> = StorageMap<_,Twox64Concat, T::Hash, Kitty<T>>;
 
 	#[pallet::storage]
 	#[pallet::getter(fn kitties_owned)]
