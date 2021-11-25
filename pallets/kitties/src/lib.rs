@@ -9,9 +9,9 @@ pub mod pallet {
 	use frame_support::{
 		sp_runtime::traits::{Hash, Zero},
 		traits::{Currency, Randomness, tokens::ExistenceRequirement},
-		dispatch::{DispatchResultWithPostInfo, DispatchResult},
 		transactional,
-		pallet_prelude::*
+		// dispatch::{DispatchResultWithPostInfo, DispatchResult},
+		// pallet_prelude::*
 	};
 	use sp_io::hashing::blake2_128;
 	use scale_info::TypeInfo;
@@ -21,6 +21,8 @@ pub mod pallet {
 
 	type AccountOf<T> = <T as frame_system::Config>::AccountId;
 	type BalanceOf<T> = <<T as Config>::Currency as Currency<<T as frame_system::Config>::AccountId>>::Balance;
+
+	//  Struct for holding Kitty Information
 	#[derive(Clone, Encode, Decode, PartialEq, RuntimeDebug, TypeInfo)]
 	#[scale_info(skip_type_params(T))]
 	pub struct Kitty<T: Config> {
@@ -30,6 +32,7 @@ pub mod pallet {
 		pub owner: AccountOf<T>,
 	}
 
+	// Set Gender type in Kitty Struct
 	#[derive(Clone, Encode, Decode, PartialEq, RuntimeDebug, TypeInfo)]
 	#[scale_info(skip_type_params(T))]
 	#[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
@@ -39,15 +42,9 @@ pub mod pallet {
 	}
 
 
-	// ACTION #3: Implementation to handle Gender type in Kitty struct.
-
-	// TODO Part II: Struct for holding Kitty information.
-
-	// TODO Part II: Enum and implementation to handle Gender type in Kitty struct.
-
 	#[pallet::pallet]
 	#[pallet::generate_store(pub(super) trait Store)]
-	#[pallet::generate_storage_info]
+	// #[pallet::generate_storage_info]
 	pub struct Pallet<T>(_);
 
 	/// Configure the pallet by specifying the parameters and types it depends on.
